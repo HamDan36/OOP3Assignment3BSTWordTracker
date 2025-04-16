@@ -118,5 +118,41 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT
 		return null;
 	}
 	
+	private class BSTreeIterator implements Iterator<E>
+	{
+		private int position = 0;
+		private java.util.List<E> elements; // list of the <E>
+		
+		public BSTreeIterator(java.util.List<E> elements)
+		{
+			this.elements = elements;
+			this.position = 0;
+		
+		@Override
+		public boolean hasNext()
+		{
+			if (position < elements.size())
+			{
+				return true;
+			}
+			
+			else
+			{
+				return false;	
+			}
+		}
+
+		@Override
+		public E next() throws NoSuchElementException
+		{
+			if (hasNext() == true)
+			{
+				throw new NoSuchElementException("There are no more elements.");
+			}
+			
+			return elements.get(position++);
+		}
+		
+	}
 
 }
