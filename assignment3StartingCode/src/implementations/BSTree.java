@@ -97,25 +97,91 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT
 		return null;
 	}
 
-	@Override
-	public Iterator inorderIterator()
+	public Iterator<E> inorderIterator()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		//in-order = left to right, small to big
+		/**
+		 * Generates an in-order iteration over the contents of the tree. Elements are
+		 * in their natural order.
+		 * 
+		 * @return an iterator with the elements in the natural order
+		 */
+		
+		java.util.List<E> treeTrack = new java.util.ArrayList<>(); // create the arraylist to track the nodes
+		
+		class InOrderTraverser
+		{
+			void inOrder(BSTreeNode<E> p)
+			{
+				if (p != null)
+				{
+					inOrder(p.getLeft()); // L , recursion
+					treeTrack.add(p.getElement()); // V
+					inOrder(p.getRight()); //R					
+				}
+			}
+		}
+		new InOrderTraverser().inOrder(root);
+		
+		return new BSTreeIterator(treeTrack);
 	}
 
-	@Override
-	public Iterator preorderIterator()
+	public Iterator<E> preorderIterator()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		/**
+		 * Generates a pre-order iteration over the contents of the tree. Elements are
+		 * order in such a way as the root element is first.
+		 * 
+		 * @return an iterator with the elements in a root element first order
+		 */
+		
+		java.util.List<E> treeTrack = new java.util.ArrayList<>();
+		
+		class PreOrderTraverser
+		{
+			void preOrder(BSTreeNode<E> p)
+			{
+				if (p != null)
+				{
+					treeTrack.add(p.getElement()); //V
+					preOrder(p.getLeft()); // L
+					preOrder(p.getRight()); // R					
+				}
+			}
+		}
+		
+		new PreOrderTraverser().preOrder(root);
+		
+		return new BSTreeIterator(treeTrack);
 	}
 
-	@Override
-	public Iterator postorderIterator()
+	public Iterator<E> postorderIterator()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		/**
+		 * Generates a post-order iteration over the contents of the tree. Elements are
+		 * order in such a way as the root element is last.
+		 * 
+		 * @return an iterator with the elements in a root element last order
+		 */
+		
+		java.util.List<E> treeTrack = new java.util.ArrayList<>();
+		
+		class PostOrderTraverser
+		{
+			void postOrder(BSTreeNode<E> p)
+			{
+				if (p != null)
+				{
+					postOrder(p.getLeft());
+					postOrder(p.getRight());
+					treeTrack.add(p.getElement());
+				}
+			}
+		}
+		
+		new PostOrderTraverser().postOrder(root);
+
+		return new BSTreeIterator(treeTrack);
 	}
 	
 	private class BSTreeIterator implements Iterator<E>
@@ -123,10 +189,12 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT
 		private int position = 0;
 		private java.util.List<E> elements; // list of the <E>
 		
+		@SuppressWarnings("unused") // delete later when used in BSTree
 		public BSTreeIterator(java.util.List<E> elements)
 		{
 			this.elements = elements;
 			this.position = 0;
+		}
 		
 		@Override
 		public boolean hasNext()
@@ -145,7 +213,7 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT
 		@Override
 		public E next() throws NoSuchElementException
 		{
-			if (hasNext() == true)
+			if (hasNext() == false)
 			{
 				throw new NoSuchElementException("There are no more elements.");
 			}
