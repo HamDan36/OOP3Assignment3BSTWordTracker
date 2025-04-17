@@ -23,8 +23,12 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT
 	}
 
 	@Override
-	public BSTreeNode getRoot() throws NullPointerException
+	public BSTreeNode<E> getRoot() throws NullPointerException
 	{
+		if (root == null)
+		{
+			throw new NullPointerException("This tree is empty");
+		}
 		return root;
 	}
 
