@@ -66,23 +66,110 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT
 	@Override
 	public boolean contains(Comparable entry) throws NullPointerException
 	{
-		// TODO Auto-generated method stub
-		return false;
+		if (entry == null)
+		{
+			throw new NullPointerException("Cannot search for a null");
+		}
+		
+		return search(entry) != null;
 	}
 
 	@Override
 	public BSTreeNode search(Comparable entry) throws NullPointerException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		if (entry == null)
+		{
+			throw new NullPointerException("Cannot search for a null");
+		}
+		
+		if (isEmpty())
+		{
+			return null;
+		}
+		
+		@SuppressWarnings("unchecked")
+		E element = (E) entry;
+		
+		BSTreeNode<E> current = root;
+		
+		while(current != null)
+		{
+			int direction = element.compareTo(current.getElement());
+			
+			if (direction == 0)
+			{
+				return current;
+			}
+			
+			else if(direction < 0 )
+			{
+				current = current.getLeft();
+			}
+			
+			else
+			{
+				current = current.getRight();
+			}
+		}
+		
+		return null; // not found
 	}
 
 	@Override
 	public boolean add(Comparable newEntry) throws NullPointerException
 	{
-		// add plus one to the size at end of code
-		// TODO Auto-generated method stub
-		return false;
+		if (newEntry == null)
+		{
+			throw new NullPointerException("Cannot add a null object");
+		}
+		
+		//create the node
+		BSTreeNode<E> newNode = new BSTreeNode<E>((E) newEntry, null, null);
+		
+		if(root == null)
+		{
+			root = newNode;
+			size++;
+			return true;
+		}
+		
+		//traverse tree if its not empty
+		BSTreeNode<E> current = root;
+		
+		while(true)
+		{
+			int direction = newEntry.compareTo(current.getElement());
+			
+			if (direction == 0)
+			{
+				// element is already in the tree
+				return false;
+			}
+			
+			else if (direction < 0) // left
+			{
+				if(current.getLeft() == null)
+				{
+					current.setLeft(new BSTreeNode<E> ((E) newEntry, null, null));
+					size++;
+					return true;					
+				}
+				
+				current = current.getLeft();				
+			}
+			
+			else  // right
+			{
+				if(current.getRight() == null)
+				{
+					current.setRight(new BSTreeNode<E> ((E) newEntry, null, null));
+					size++;
+					return true;
+				}
+				
+				current = current.getRight();
+			}
+		}
 	}
 
 	@Override
