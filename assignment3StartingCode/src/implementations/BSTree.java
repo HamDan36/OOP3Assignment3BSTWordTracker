@@ -170,19 +170,67 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT
 	}
 
 	@Override
-	public BSTreeNode removeMin()
+	public BSTreeNode<E> removeMin()
 	{
-		//subtract from size
-		// TODO Auto-generated method stub
-		return null;
+		if (root == null)
+		{
+			return null;
+		}
+		
+		BSTreeNode<E> prev = null;
+		BSTreeNode<E> current = root;
+		
+		// go all the way to the left
+		while(current.getLeft() != null)
+		{
+			prev = current;
+			current = current.getLeft();
+		}
+		
+		if (prev == null)
+		{
+			root = current.getRight(); // replace with right leaf
+		}
+		
+		else
+		{
+			prev.setLeft(current.getRight()); 
+		}
+		
+		size--;
+		return current;
 	}
 
 	@Override
-	public BSTreeNode removeMax()
+	public BSTreeNode<E> removeMax()
 	{
-		//subtract from size
-		// TODO Auto-generated method stub
-		return null;
+		if (root == null)
+		{
+			return null;
+		}
+		
+		BSTreeNode<E> prev = null;
+		BSTreeNode<E> current = root;
+		
+		// go all the way to the right
+		while(current.getRight() != null)
+		{
+			prev = current;
+			current = current.getRight();
+		}
+		
+		if (prev == null)
+		{
+			root = current.getLeft(); // replace w left leaf
+		}
+		
+		else
+		{
+			prev.setRight(current.getLeft());
+		}
+		
+		size--;
+		return current;
 	}
 
 	public Iterator<E> inorderIterator()
