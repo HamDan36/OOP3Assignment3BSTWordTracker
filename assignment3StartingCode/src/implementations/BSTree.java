@@ -75,7 +75,7 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT
 	}
 
 	@Override
-	public BSTreeNode search(Comparable entry) throws NullPointerException
+	public BSTreeNode<E> search(Comparable entry) throws NullPointerException
 	{
 		if (entry == null)
 		{
@@ -87,14 +87,11 @@ public class BSTree<E extends Comparable<? super E>> implements BSTreeADT
 			return null;
 		}
 		
-		@SuppressWarnings("unchecked")
-		E element = (E) entry;
-		
 		BSTreeNode<E> current = root;
 		
 		while(current != null)
 		{
-			int direction = element.compareTo(current.getElement());
+			int direction = entry.compareTo(current.getElement());
 			
 			if (direction == 0)
 			{
